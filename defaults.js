@@ -172,11 +172,13 @@ const XF_CTA = [
   "无\\s*套\\s*路",
   "打\\s*[✈飞]",
   "点\\s*(我|头像|主页|链接)",
+  // 与诱饵词组合，识别「约 p 平台入口」等简介引流；普通页面入口不会单独命中
+  "入\\s*口",
 ].join("|");
 
 /** 内置规则版本：改动下面的表就 +1，老用户下次加载会拿到新表。 */
 // eslint-disable-next-line no-unused-vars
-const XF_DEFAULTS_VERSION = 17;
+const XF_DEFAULTS_VERSION = 18;
 
 // eslint-disable-next-line no-unused-vars
 const XF_DEFAULT_RULES = [

@@ -1,7 +1,7 @@
 // 跑在页面主世界（MAIN world，document_start）。
 // 推文 DOM 里没有关注数/粉丝数，只能从 X 自己的接口响应里截：
-// 挂上 fetch / XHR 钩子，把响应 JSON 里的用户对象（screen_name +
-// followers_count）捞出来，postMessage 发给隔离世界的 content.js。
+// 挂上 fetch / XHR 钩子，把响应 JSON 里的用户对象（screen_name、
+// description、followers_count）捞出来，postMessage 发给隔离世界的 content.js。
 // 只读不改，X 的请求原样放行。
 (() => {
   "use strict";
@@ -17,7 +17,7 @@
       armed = event.data.on === true;
     }
   });
-  /** handle -> 上次发过的 "followers:following:verified"，变了才重发 */
+  /** handle -> 上次发过的用户数据；后来的精简对象不能抹掉已经拿到的简介 */
   const sent = new Map();
   let batch = [];
   let timer = 0;
@@ -34,11 +34,22 @@
     batch = [];
   }
 
-  function queue(handle, followers, following, verified) {
-    const key = `${followers}:${following}:${verified ? 1 : 0}`;
-    if (sent.get(handle) === key) return;
-    sent.set(handle, key);
-    batch.push({ handle, followers, following, verified });
+  function queue(handle, followers, following, verified, description) {
+    const previous = sent.get(handle);
+    const user = {
+      handle,
+      followers,
+      following,
+      verified,
+      description:
+        typeof description === "string" && description
+          ? description
+          : previous?.description || "",
+    };
+    const key = JSON.stringify(user);
+    if (previous?.key === key) return;
+    sent.set(handle, { key, description: user.description });
+    batch.push(user);
     if (!timer) timer = setTimeout(flush, 200);
   }
 
@@ -50,6 +61,13 @@
     }
     // 用户对象：当前 GraphQL 结构把账号名放在 core、计数放在
     // relationship_counts；旧结构则把这些字段都放在 legacy。
+    const legacy = node.legacy;
+    const description =
+      typeof node.profile_bio?.description === "string"
+        ? node.profile_bio.description
+        : typeof legacy?.description === "string"
+          ? legacy.description
+          : "";
     const coreHandle =
       typeof node.core?.screen_name === "string"
         ? node.core.screen_name
@@ -61,10 +79,10 @@
         counts.followers,
         typeof counts.following === "number" ? counts.following : 0,
         node.is_blue_verified === true || node.verification?.verified === true,
+        description,
       );
     }
 
-    const legacy = node.legacy;
     if (legacy && typeof legacy === "object") {
       const handle =
         coreHandle
@@ -80,6 +98,7 @@
           node.is_blue_verified === true ||
             node.verification?.verified === true ||
             legacy.verified === true,
+          description,
         );
       }
     }

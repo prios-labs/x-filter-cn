@@ -48,8 +48,8 @@
   let lastPanelSig = "";
 
   /**
-   * page-hook.js 从接口响应里捞到的作者数据：handle -> 指标。
-   * DOM 里没有关注/粉丝数，这是唯一来源；没捞到的作者一律不按指标处理。
+   * page-hook.js 从接口响应里捞到的作者数据：handle -> 指标和公开简介。
+   * DOM 里没有这些字段；没捞到的作者一律不按对应数据处理。
    */
   const userStats = new Map();
   /** 数据每进一批就 +1，写进 sig 让已扫过的 article 重新评估 */
@@ -70,7 +70,7 @@
     };
   }
 
-  /** 通知主世界的钩子：功能没开就别拦截任何请求 */
+  /** 通知主世界的钩子：规则和账号指标都不用时不检查接口响应 */
   function armPageHook(on) {
     try {
       window.postMessage(
@@ -91,7 +91,9 @@
     );
     settings = { enabled, rules, account: normalizeAccount(raw?.account) };
     matchers = compileMatchers(rules);
-    armPageHook(enabled && settings.account.byMetrics);
+    armPageHook(
+      enabled && (matchers.length > 0 || settings.account.byMetrics),
+    );
     // Persist the merged list so the options page shows the same thing
     if (persist && changed) {
       chrome.storage.sync.set({
@@ -160,6 +162,14 @@
 
     const body = article.querySelector('[data-testid="tweetText"]');
     if (body) parts.push(textOf(body));
+
+    // X 的帖子接口通常同时返回作者公开简介。拿到后与昵称、正文一起匹配；
+    // 没拿到时照常按页面文字过滤，不主动请求账号资料。
+    const author = authorInfoOf(article);
+    const description = author?.handle
+      ? userStats.get(author.handle)?.description
+      : "";
+    if (description) parts.push(description);
 
     // Some ads / cards put text elsewhere
     const card = article.querySelector('[data-testid="card.wrapper"]');
@@ -565,30 +575,37 @@
       return;
     }
     let added = false;
+    let descriptionChanged = false;
     for (const u of event.data.users || []) {
       if (!u || typeof u.handle !== "string") continue;
       if (typeof u.followers !== "number" || typeof u.following !== "number") {
         continue;
       }
       const prev = userStats.get(u.handle);
+      const description =
+        typeof u.description === "string" && u.description
+          ? u.description
+          : prev?.description || "";
       if (
         !prev ||
         prev.followers !== u.followers ||
         prev.following !== u.following ||
-        prev.verified !== u.verified
+        prev.verified !== u.verified ||
+        prev.description !== description
       ) {
+        if (prev?.description !== description) descriptionChanged = true;
         userStats.set(u.handle, {
           followers: u.followers,
           following: u.following,
           verified: u.verified === true,
+          description,
         });
         added = true;
       }
     }
     if (added) {
       metricsGen++;
-      // 指标过滤没开就不用为新数据重扫
-      if (settings.account.byMetrics) scheduleScan();
+      if (settings.account.byMetrics || descriptionChanged) scheduleScan();
     }
   });
 

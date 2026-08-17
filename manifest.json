@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "0.6.22",
+  "version": "0.6.23",
   "description": "__MSG_extDescription__",
   "permissions": [
     "storage"
@@ -54,7 +54,7 @@
       "css": [
         "content.css"
       ],
-      "run_at": "document_idle"
+      "run_at": "document_start"
     }
   ],
   "default_locale": "zh_CN"

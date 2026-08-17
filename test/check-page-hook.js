@@ -73,6 +73,15 @@ async function main() {
     result: {
       core: { screen_name: "NewShape" },
       relationship_counts: { followers: 2, following: 1 },
+      profile_bio: { description: "约p平台入口" },
+      verification: { verified: false },
+    },
+  });
+  // 后续精简响应可能没有简介，不能把已经拿到的简介清空或重复发送。
+  await ingest({
+    result: {
+      core: { screen_name: "NewShape" },
+      relationship_counts: { followers: 2, following: 1 },
       verification: { verified: false },
     },
   });
@@ -82,6 +91,7 @@ async function main() {
         screen_name: "LegacyShape",
         followers_count: 7,
         friends_count: 3,
+        description: "同城线下",
         verified: true,
       },
     },
@@ -99,6 +109,7 @@ async function main() {
               followers: 2,
               following: 1,
               verified: false,
+              description: "约p平台入口",
             },
           ],
         },
@@ -113,6 +124,7 @@ async function main() {
               followers: 7,
               following: 3,
               verified: true,
+              description: "同城线下",
             },
           ],
         },

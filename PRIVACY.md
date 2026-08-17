@@ -1,22 +1,22 @@
 # 隐私权政策 / Privacy Policy
 
-最后更新：2026-08-17
+最后更新：2026-08-18
 
 ## English
 
-X Filter CN processes the minimum data needed to filter posts and replies. Page content and account metrics stay in the current tab and are not sent to the developer or any third party.
+X Filter CN processes the minimum data needed to filter posts and replies. Page content and public account data stay in the current tab and are not sent to the developer or any third party.
 
 **What is stored**
 
 Your filter rules, toggles, and thresholds are saved with `chrome.storage.sync`. Chrome may sync these settings through your signed-in account according to your Chrome settings. The developer has no access to them.
 
-**Page text**
+**Page text and public bios**
 
-To decide whether a post matches your rules, the extension reads text already rendered on x.com and twitter.com: display name, @handle, post body, and card text. This happens in page memory, is discarded after matching, and is not written to storage or transmitted by the extension.
+To decide whether a post matches your rules, the extension reads the display name, @handle, public bio, post body, and card text that X returns to the current page. This data stays in page memory and is not written to storage or transmitted by the extension.
 
 **Account metrics**
 
-Only after you turn on following/follower count filtering does the extension inspect the API responses X returns to the page, taking the reply author's follower count, following count, and verification status. With this filter off, those responses are not inspected. Direct-message endpoints are skipped. The account metrics stay in the current tab's memory, disappear when the tab closes, and are not stored or transmitted by the extension.
+When text rules or account filters are enabled, the extension inspects API responses X returns to the page for public bios and, when available, follower counts, following counts, and verification status. Direct-message endpoints are skipped. This data stays in the current tab's memory, disappears when the tab closes, and is not stored or transmitted by the extension.
 
 **What it does not do**
 
@@ -36,19 +36,19 @@ Issues and feedback: https://x-filter.prios.dev
 
 ## 简体中文
 
-X Filter CN 只处理过滤帖子和回复所需的数据。页面内容和账号指标不会离开当前标签页，也不会发送给扩展开发者或其他第三方。
+X Filter CN 只处理过滤帖子和回复所需的数据。页面内容和公开账号信息不会离开当前标签页，也不会发送给扩展开发者或其他第三方。
 
 **存在哪里的数据**
 
 你的过滤规则、开关状态和阈值设置通过 `chrome.storage.sync` 保存，并可按 Chrome 设置随已登录的 Chrome 账号同步。扩展开发者无法访问这些设置。
 
-**页面文本**
+**页面文本和公开简介**
 
-为了判断一条帖子是否符合你的规则，扩展会读取 x.com 和 twitter.com 页面上已经显示的昵称、@用户名、帖子正文和卡片文字。这些内容只在页面内存中处理，匹配后即丢弃，不写入存储，也不由扩展发送到其他地方。
+为了判断一条帖子是否符合你的规则，扩展会读取 X 返回给当前页面的昵称、@用户名、公开简介、帖子正文和卡片文字。这些内容只在页面内存中处理，不写入存储，也不由扩展发送到其他地方。
 
 **账号指标**
 
-只有在你打开关注数 / 粉丝数过滤后，扩展才会检查 X 返回给页面的接口响应，从中读取回复作者的关注数、粉丝数和认证状态。关闭这项过滤后，扩展不会检查这些响应。私信相关接口会被跳过。账号指标只保留在当前标签页的内存中，关闭标签页即清除，不写入存储，也不由扩展发送到其他地方。
+开启文字规则或账号过滤后，扩展会检查 X 返回给页面的接口响应，从中读取公开简介，以及接口中已有的关注数、粉丝数和认证状态。私信相关接口会被跳过。这些数据只保留在当前标签页的内存中，关闭标签页即清除，不写入存储，也不由扩展发送到其他地方。
 
 **不做的事**
 

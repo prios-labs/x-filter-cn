@@ -11,7 +11,7 @@ Chrome Web Store: <https://chromewebstore.google.com/detail/ibkipokkocaajalmcple
 ## Features
 
 - Filter posts and replies by keyword or regular expression
-- Match display names, @usernames, and post text
+- Match display names, @usernames, public bios, and post text
 - Filter replies on status pages by following count, follower count, or verification status
 - Show the number of filtered posts and restore individual items
 - Add custom rules and test them before saving
@@ -48,7 +48,7 @@ Account filters apply only to replies on status pages. They do not affect the Ho
 ## Privacy
 
 - No analytics
-- Post content and account metrics are processed only in the current tab and are not stored or uploaded
+- Post content, public bios, and account metrics are processed only in the current tab and are not stored or uploaded
 - Rules and toggles are saved in Chrome sync storage and may sync according to the user's Chrome settings
 - The extension makes no network requests of its own
 
