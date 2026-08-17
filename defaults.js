@@ -83,6 +83,14 @@ function xfNormalize(text) {
     .trim();
 }
 
+/** X 当前默认头像使用固定资源目录；只按 URL 判断，不分析图片内容。 */
+// eslint-disable-next-line no-unused-vars
+function xfIsDefaultAvatarUrl(url) {
+  return /\/default_profile_images\/default_profile_[^/?#]+\.png(?:[?#]|$)/i.test(
+    String(url || ""),
+  );
+}
+
 /**
  * 诱饵：性暗示 / 人设 / 交易信号。
  * 单独出现不判定 —— 必须配一个引流动作，或另一个诱饵词。

@@ -38,7 +38,13 @@
           只填一项时按该项判断；两项都填时，需同时满足。
         </p>
 
-        <label class="switch-label acct-nonv">
+        <label class="switch-label acct-toggle">
+          <input type="checkbox" id="acct-default-avatar" />
+          <span>隐藏使用默认头像账号的回复</span>
+        </label>
+        <p class="hint">正常账号也可能没有设置头像。</p>
+
+        <label class="switch-label acct-toggle">
           <input type="checkbox" id="acct-nonverified" />
           <span>隐藏未认证（无蓝 V）账号的回复</span>
         </label>
@@ -48,7 +54,7 @@
       <section class="card">
         <div class="section-head">
           <h2>测试</h2>
-          <p class="hint">粘贴昵称或正文，查看是否会被过滤</p>
+          <p class="hint">粘贴昵称、简介或正文，查看是否会被过滤</p>
         </div>
         <textarea
           id="test-input"

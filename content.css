@@ -190,9 +190,9 @@ article.xf-flash {
   }
 }
 
-/* 三类原因统一用主色描边胶囊。强弱靠排列顺序体现：
-   规则最具体排第一行，粉丝数次之，未认证排最后 */
+/* 账号原因统一用主色描边胶囊。强弱靠排列顺序体现。 */
 .xf-panel-rule[data-kind="metrics"],
+.xf-panel-rule[data-kind="avatar"],
 .xf-panel-rule[data-kind="verified"] {
   color: color-mix(in srgb, #1d9bf0 78%, #e7e9ea);
   border-color: rgba(29, 155, 240, 0.4);

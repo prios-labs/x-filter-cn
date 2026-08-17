@@ -12,11 +12,11 @@ Your filter rules, toggles, and thresholds are saved with `chrome.storage.sync`.
 
 **Page text and public bios**
 
-To decide whether a post matches your rules, the extension reads the display name, @handle, public bio, post body, and card text that X returns to the current page. This data stays in page memory and is not written to storage or transmitted by the extension.
+To decide whether a post matches your rules, the extension reads the display name, @handle, public bio, profile image URL, post body, and card text that X returns to the current page. This data stays in page memory and is not written to storage or transmitted by the extension.
 
 **Account metrics**
 
-When text rules or account filters are enabled, the extension inspects API responses X returns to the page for public bios and, when available, follower counts, following counts, and verification status. Direct-message endpoints are skipped. This data stays in the current tab's memory, disappears when the tab closes, and is not stored or transmitted by the extension.
+When text rules or account filters are enabled, the extension uses public bios, whether an account uses X's default profile image, and, when available, follower counts, following counts, and verification status. Direct-message endpoints are skipped. This data stays in the current tab's memory, disappears when the tab closes, and is not stored or transmitted by the extension.
 
 **What it does not do**
 
@@ -44,11 +44,11 @@ X Filter CN 只处理过滤帖子和回复所需的数据。页面内容和公�
 
 **页面文本和公开简介**
 
-为了判断一条帖子是否符合你的规则，扩展会读取 X 返回给当前页面的昵称、@用户名、公开简介、帖子正文和卡片文字。这些内容只在页面内存中处理，不写入存储，也不由扩展发送到其他地方。
+为了判断一条帖子是否符合你的规则，扩展会读取 X 返回给当前页面的昵称、@用户名、公开简介、头像地址、帖子正文和卡片文字。这些内容只在页面内存中处理，不写入存储，也不由扩展发送到其他地方。
 
 **账号指标**
 
-开启文字规则或账号过滤后，扩展会检查 X 返回给页面的接口响应，从中读取公开简介，以及接口中已有的关注数、粉丝数和认证状态。私信相关接口会被跳过。这些数据只保留在当前标签页的内存中，关闭标签页即清除，不写入存储，也不由扩展发送到其他地方。
+开启文字规则或账号过滤后，扩展会使用公开简介、账号是否使用 X 默认头像，以及接口中已有的关注数、粉丝数和认证状态。私信相关接口会被跳过。这些数据只保留在当前标签页的内存中，关闭标签页即清除，不写入存储，也不由扩展发送到其他地方。
 
 **不做的事**
 

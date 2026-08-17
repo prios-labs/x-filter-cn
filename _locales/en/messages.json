@@ -4,7 +4,7 @@
     "description": "Extension name"
   },
   "extDescription": {
-    "message": "Hides Chinese spam and adult-content promotions on X. Supports keywords, regex, account filters, display names, and post text.",
+    "message": "Hides Chinese spam and adult-content promotions on X using text, public bios, and account filters.",
     "description": "Extension summary"
   }
 }

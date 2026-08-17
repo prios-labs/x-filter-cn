@@ -395,7 +395,7 @@ header h1 {
   font-size: var(--fs-sm);
 }
 
-.acct-nonv {
+.acct-toggle {
   margin-top: var(--sp-4);
 }
 

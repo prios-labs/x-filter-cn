@@ -19,6 +19,7 @@
     byMetrics: false,
     maxFollowing: null,
     maxFollowers: 0,
+    defaultAvatar: false,
     nonVerified: false,
   };
 
@@ -66,6 +67,7 @@
       byMetrics: a?.byMetrics === true,
       maxFollowing: num(a?.maxFollowing),
       maxFollowers: num(a?.maxFollowers),
+      defaultAvatar: a?.defaultAvatar === true,
       nonVerified: a?.nonVerified === true,
     };
   }
@@ -221,6 +223,9 @@
   function authorInfoOf(article) {
     const userName = article.querySelector('[data-testid="User-Name"]');
     if (!userName) return null;
+    const avatar = article.querySelector(
+      '[data-testid="Tweet-User-Avatar"] img',
+    );
     let handle = null;
     for (const a of userName.querySelectorAll('a[href^="/"]')) {
       const m = (a.getAttribute("href") || "").match(/^\/([A-Za-z0-9_]{1,20})$/);
@@ -231,6 +236,7 @@
     }
     return {
       handle,
+      defaultAvatar: xfIsDefaultAvatarUrl(avatar?.getAttribute("src")),
       verified: !!userName.querySelector('svg[data-testid="icon-verified"]'),
     };
   }
@@ -248,7 +254,7 @@
    */
   function accountHideReasons(article) {
     const acct = settings.account;
-    if (!acct.byMetrics && !acct.nonVerified) return [];
+    if (!acct.byMetrics && !acct.defaultAvatar && !acct.nonVerified) return [];
     if (!isReplyOnStatusPage(article)) return [];
     const info = authorInfoOf(article);
     if (!info) return [];
@@ -270,6 +276,9 @@
           text: `${stats.following} 关注 · ${stats.followers} 粉丝`,
         });
       }
+    }
+    if (acct.defaultAvatar && info.defaultAvatar) {
+      out.push({ kind: "avatar", text: "默认头像" });
     }
     if (acct.nonVerified && !info.verified) {
       out.push({ kind: "verified", text: "未认证" });
@@ -293,7 +302,7 @@
     if (article.tagName !== "ARTICLE") return false;
 
     const acct = settings.account;
-    const acctSig = `${acct.byMetrics ? 1 : 0}:${acct.maxFollowing}:${acct.maxFollowers}:${acct.nonVerified ? 1 : 0}:${metricsGen}:${allowKeys.size}`;
+    const acctSig = `${acct.byMetrics ? 1 : 0}:${acct.maxFollowing}:${acct.maxFollowers}:${acct.defaultAvatar ? 1 : 0}:${acct.nonVerified ? 1 : 0}:${metricsGen}:${allowKeys.size}`;
     const text = extractText(article);
     const sig = `${settings.enabled ? 1 : 0}|${matchers.length}|${acctSig}|${text}`;
     if (article.getAttribute(ATTR_SIG) === sig) {

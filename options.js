@@ -22,12 +22,14 @@
   const $acctMetrics = document.getElementById("acct-metrics");
   const $acctMaxFollowing = document.getElementById("acct-max-following");
   const $acctMaxFollowers = document.getElementById("acct-max-followers");
+  const $acctDefaultAvatar = document.getElementById("acct-default-avatar");
   const $acctNonVerified = document.getElementById("acct-nonverified");
 
   const ACCOUNT_DEFAULTS = {
     byMetrics: false,
     maxFollowing: null,
     maxFollowers: 0,
+    defaultAvatar: false,
     nonVerified: false,
   };
 
@@ -43,6 +45,7 @@
       byMetrics: $acctMetrics.checked,
       maxFollowing: clampCount($acctMaxFollowing.value),
       maxFollowers: clampCount($acctMaxFollowers.value),
+      defaultAvatar: $acctDefaultAvatar.checked,
       nonVerified: $acctNonVerified.checked,
     };
   }
@@ -52,6 +55,7 @@
     $acctMetrics.checked = a?.byMetrics === true;
     $acctMaxFollowing.value = show(a?.maxFollowing);
     $acctMaxFollowers.value = show(a?.maxFollowers);
+    $acctDefaultAvatar.checked = a?.defaultAvatar === true;
     $acctNonVerified.checked = a?.nonVerified === true;
   }
 

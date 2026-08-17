@@ -8,9 +8,23 @@ const src = fs.readFileSync(
   path.join(__dirname, "..", "defaults.js"),
   "utf8",
 );
-const { rules, norm } = eval(
-  src + "; ({ rules: XF_DEFAULT_RULES, norm: xfNormalize })",
+const { rules, norm, isDefaultAvatar } = eval(
+  src +
+    "; ({ rules: XF_DEFAULT_RULES, norm: xfNormalize, isDefaultAvatar: xfIsDefaultAvatarUrl })",
 );
+
+if (
+  !isDefaultAvatar(
+    "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png",
+  ) ||
+  !isDefaultAvatar(
+    "https://abs.twimg.com/sticky/default_profile_images/default_profile_x96.png",
+  ) ||
+  isDefaultAvatar("https://pbs.twimg.com/profile_images/123/avatar_normal.jpg")
+) {
+  console.error("默认头像 URL 判断回归失败");
+  process.exit(1);
+}
 
 const ruipingFuRule = rules.find((rule) => rule.id === "d-ruiping-fu");
 if (ruipingFuRule?.label !== "锐评 × 我的福") {
