@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "X Filter CN – Chinese spam reply blocker",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Hides Chinese spam and adult-content promotions on X. Supports keywords, regex, account filters, display names, and post text.",
+    "description": "Extension summary"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "X Filter CN – 屏蔽中文引流与色情回复",
+    "description": "扩展名称"
+  },
+  "extDescription": {
+    "message": "屏蔽 X 上的中文垃圾内容和色情引流回复。支持关键词、正则和账号条件，同时检查昵称和正文。",
+    "description": "扩展简介"
+  }
+}

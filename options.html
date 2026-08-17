@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>X Filter CN — 规则</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>X Filter CN</h1>
+        <p class="sub">按关键词、正则和账号信息隐藏帖子与回复</p>
+      </header>
+
+      <section class="card row">
+        <label class="switch-label">
+          <input type="checkbox" id="enabled" />
+          <span>启用过滤</span>
+        </label>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <h2>按账号过滤回复</h2>
+          <p class="hint">仅过滤帖子详情页中的回复</p>
+        </div>
+
+        <label class="switch-label">
+          <input type="checkbox" id="acct-metrics" />
+          <span>按关注数 / 粉丝数隐藏回复</span>
+        </label>
+        <div class="acct-fields">
+          <label>关注数 ≤ <input type="number" id="acct-max-following" min="0" step="1" placeholder="不限" /></label>
+          <label>粉丝数 ≤ <input type="number" id="acct-max-followers" min="0" step="1" placeholder="不限" /></label>
+        </div>
+        <p class="hint">
+          只填一项时按该项判断；两项都填时，需同时满足。
+        </p>
+
+        <label class="switch-label acct-nonv">
+          <input type="checkbox" id="acct-nonverified" />
+          <span>隐藏未认证（无蓝 V）账号的回复</span>
+        </label>
+        <p class="hint">没有蓝 V 的正常账号也会被隐藏。</p>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <h2>测试</h2>
+          <p class="hint">粘贴昵称或正文，查看是否会被过滤</p>
+        </div>
+        <textarea
+          id="test-input"
+          class="test-input"
+          rows="2"
+          spellcheck="false"
+          placeholder="例：以亦🌸 我果然太涩了📝🙈有人想锐评一下我的福嘛"
+        ></textarea>
+        <div id="test-result" class="test-result" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <h2>规则</h2>
+          <div class="head-actions">
+            <button type="button" id="add-keyword" class="btn">+ 关键词</button>
+            <button type="button" id="add-regex" class="btn">+ 正则</button>
+          </div>
+        </div>
+
+        <div class="view-tabs" role="tablist" aria-label="规则类型">
+          <button type="button" class="tab active" data-view="all" role="tab" aria-selected="true">
+            全部 <span class="tab-count" id="count-all">0</span>
+          </button>
+          <button type="button" class="tab" data-view="keyword" role="tab" aria-selected="false">
+            关键词 <span class="tab-count" id="count-keyword">0</span>
+          </button>
+          <button type="button" class="tab" data-view="regex" role="tab" aria-selected="false">
+            正则 <span class="tab-count" id="count-regex">0</span>
+          </button>
+        </div>
+
+        <div id="rules" class="rules"></div>
+      </section>
+
+      <div class="sticky-bar" id="sticky-bar">
+        <div class="sticky-inner">
+          <p id="toast" class="toast" role="status" aria-live="polite"></p>
+          <div class="sticky-actions">
+            <button type="button" id="reset" class="btn ghost">恢复默认</button>
+            <button type="button" id="save" class="btn primary">保存</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="defaults.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

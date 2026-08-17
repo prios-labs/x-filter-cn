@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12 12 104 104">
+  <defs>
+    <linearGradient id="bubble" x1="24" y1="20" x2="104" y2="108" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d9bf0" />
+      <stop offset="1" stop-color="#0878bd" />
+    </linearGradient>
+  </defs>
+  <path
+    fill="url(#bubble)"
+    d="M40 16h48c13.3 0 24 10.7 24 24v40c0 13.3-10.7 24-24 24H52l-20 8v-8c-8.8 0-16-7.2-16-16V40c0-13.3 10.7-24 24-24Z"
+  />
+  <path fill="#fff" d="M35 38h58L72 64v20l-16 8V64L35 38Z" />
+</svg>

@@ -1,0 +1,199 @@
+/*
+ * X 把每条推文包在 cellInnerDiv 里，分隔线和上下留白属于外层。
+ * 只隐藏 article 会留下一道空的灰条，所以外层一起隐藏。
+ */
+div[data-testid="cellInnerDiv"]:has(article[data-xf-hidden="1"]) {
+  display: none !important;
+}
+
+/* Hidden by keyword / regex match（非时间线的 article 布局也覆盖到） */
+article[data-xf-hidden="1"] {
+  display: none !important;
+}
+
+/* 「点击查看」不改匹配状态，只由 CSS 决定显不显示，再点一下就收回去 */
+html[data-xf-show-hidden="1"]
+  div[data-testid="cellInnerDiv"]:has(article[data-xf-hidden="1"]) {
+  display: revert !important;
+}
+
+html[data-xf-show-hidden="1"] article[data-xf-hidden="1"] {
+  display: revert !important;
+  opacity: 0.52 !important;
+  outline: 1px dashed #536471 !important;
+  outline-offset: -1px;
+}
+
+/* 误伤时的退路：低调、常驻右下，抬高到 X 的私信浮窗之上 */
+.xf-hidden-root {
+  position: fixed;
+  right: 16px;
+  bottom: 84px;
+  z-index: 2147483647;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+/* 组件尺寸统一包含 padding 和 border，避免面板或子项突破声明宽度 */
+.xf-hidden-root,
+.xf-hidden-root * {
+  box-sizing: border-box;
+}
+
+.xf-hidden-notice {
+  max-width: min(calc(100vw - 32px), 300px);
+  border: 1px solid rgba(83, 100, 113, 0.5);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(15, 20, 25, 0.88);
+  color: #e7e9ea;
+  font:
+    500 13px/1.25 system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+  opacity: 0.82;
+}
+
+.xf-hidden-notice:hover,
+.xf-hidden-notice:focus-visible {
+  opacity: 1;
+  border-color: #1d9bf0;
+}
+
+.xf-hidden-notice:focus-visible {
+  outline: 2px solid #1d9bf0;
+  outline-offset: 2px;
+}
+
+/* 明细面板：每条显示命中规则 + 作者 + 摘要，可单条恢复 */
+.xf-hidden-panel {
+  width: min(calc(100vw - 32px), 380px);
+  max-height: min(55vh, 480px);
+  overflow-y: auto;
+  border: 1px solid rgba(83, 100, 113, 0.5);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(15, 20, 25, 0.96);
+  color: #e7e9ea;
+  font: 400 13px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.xf-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.xf-panel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.xf-panel-row {
+  display: grid;
+  /* 原因列定宽，各行正文左缘对齐；内容再长也不挤压正文 */
+  grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr) auto;
+  gap: 8px 10px;
+  align-items: start;
+  padding: 8px;
+  border: 1px solid rgba(83, 100, 113, 0.35);
+  border-radius: 10px;
+}
+
+.xf-panel-why {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.xf-panel-rule {
+  /* flex 子项默认不肯缩到内容宽度以下，显式置 0 才能截断长标签 */
+  min-width: 0;
+  max-width: 100%;
+  padding: 2px 8px;
+  border: 1px solid rgba(29, 155, 240, 0.5);
+  border-radius: 999px;
+  color: #1d9bf0;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.xf-panel-text {
+  appearance: none;
+  padding-top: 1px;
+  border: 0;
+  background: transparent;
+  color: #e7e9ea;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.xf-panel-text:hover {
+  color: #1d9bf0;
+}
+
+.xf-panel-btn {
+  appearance: none;
+  border: 1px solid rgba(83, 100, 113, 0.5);
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: transparent;
+  color: #e7e9ea;
+  font: 500 12px/1.2 system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.xf-panel-btn:hover {
+  border-color: #1d9bf0;
+  color: #1d9bf0;
+}
+
+/* 从面板点过去时给个视觉落点 */
+article.xf-flash {
+  animation: xf-flash-outline 1.6s ease-out;
+}
+
+@keyframes xf-flash-outline {
+  0%,
+  60% {
+    outline: 2px solid #1d9bf0;
+    outline-offset: -2px;
+  }
+  100% {
+    outline: 2px solid transparent;
+  }
+}
+
+/* 三类原因统一用主色描边胶囊。强弱靠排列顺序体现：
+   规则最具体排第一行，粉丝数次之，未认证排最后 */
+.xf-panel-rule[data-kind="metrics"],
+.xf-panel-rule[data-kind="verified"] {
+  color: color-mix(in srgb, #1d9bf0 78%, #e7e9ea);
+  border-color: rgba(29, 155, 240, 0.4);
+}
