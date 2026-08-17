@@ -176,7 +176,7 @@ const XF_CTA = [
 
 /** 内置规则版本：改动下面的表就 +1，老用户下次加载会拿到新表。 */
 // eslint-disable-next-line no-unused-vars
-const XF_DEFAULTS_VERSION = 16;
+const XF_DEFAULTS_VERSION = 17;
 
 // eslint-disable-next-line no-unused-vars
 const XF_DEFAULT_RULES = [
@@ -288,6 +288,31 @@ const XF_DEFAULT_RULES = [
     label: "同城/附近/真实可靠 × 牵线/对接/见面",
     pattern:
       "(附\\s*近|同\\s*城|本\\s*地|真\\s*实\\s*可\\s*靠)[\\s\\S]{0,12}(牵\\s*线|对\\s*接|交\\s*友|约\\s*会|约\\s*见|见\\s*面|点\\s*我|可\\s*约|安\\s*排)",
+    type: "regex",
+    enabled: true,
+  },
+  {
+    id: "d-offline-meetup-bait",
+    label: "线下邀约昵称（线下 dd / 优质线下 / 蹲搭子）",
+    // 这批账号把完整话术放在昵称里，正文只留 emoji，不能依赖组合层。
+    // 只收固定的拉客句式，不匹配「线下活动」「线下读书会」等正常表达。
+    pattern:
+      "(?:d|滴)\\s*(?:一?个)?\\s*线\\s*下\\s*(?:的)?\\s*(?:哥|弟|男|搭\\s*子)" +
+      "|线\\s*下\\s*(?:dd|滴\\s*滴|d)" +
+      "|优\\s*质\\s*线\\s*下(?!\\s*(?:活动|课程|门店|服务|体验|会议|展览))" +
+      "|线\\s*下\\s*优\\s*质(?!\\s*(?:活动|课程|门店|服务|体验|会议|展览))" +
+      "|离\\s*得\\s*近\\s*(?:来|找|约|见)" +
+      "|蹲\\s*(?:一\\s*个|个)\\s*搭\\s*子",
+    type: "regex",
+    enabled: true,
+  },
+  {
+    id: "d-prettier-wilder-tpl",
+    label: "比她好看的没她骚（复读模板）",
+    // 主语会在我/你/他/她之间替换，emoji 和装饰符会在归一化阶段删掉。
+    pattern:
+      "比\\s*[我你他她]?\\s*好\\s*看\\s*的?\\s*没\\s*[我你他她]?\\s*(?:骚|sao)[\\s\\S]{0,12}" +
+      "比\\s*[我你他她]?\\s*(?:骚|sao)\\s*的?\\s*没\\s*[我你他她]?\\s*好\\s*看",
     type: "regex",
     enabled: true,
   },
