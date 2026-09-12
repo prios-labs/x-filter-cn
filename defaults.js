@@ -40,6 +40,8 @@ const XF_CONFUSABLES = {
   "約": "约",
   "砲": "炮",
   "妺": "妹",
+  "無": "无",
+  "償": "偿",
 };
 
 const XF_CONFUSABLE_RE = new RegExp(
@@ -107,7 +109,7 @@ const XF_BAIT_STRONG = [
   "(没人比[他她]|没\\s*我|比\\s*我)\\s*(sao|骚)",
   "[他她]\\s*sao",
   "一\\s*夜\\s*情|炮\\s*友",
-  "找\\s*主\\s*人|母\\s*狗|无\\s*偿\\s*(主人|调教|母|奴)",
+  "找\\s*主\\s*人|母\\s*狗|无\\s*[偿尝]\\s*(约(?!\\s*(稿|拍))|主人|调教|母|奴)",
   "破\\s*处",
   "处\\s*男",
   "无\\s*套",
@@ -178,6 +180,8 @@ const XF_CONTACT_STRONG = [
   "(?<![a-z])tme",
   "无\\s*套\\s*路",
   "打\\s*[✈飞]",
+  // 「附近👇来🈷我」：🈷 归一化后是「月」
+  "来\\s*[约月]\\s*我",
 ].join("|");
 
 /**
@@ -230,7 +234,7 @@ const XF_CTA_STRONG = [XF_CONTACT_STRONG, XF_PROMISE_STRONG].join("|");
 
 /** 内置规则版本：改动下面的表就 +1，老用户下次加载会拿到新表。 */
 // eslint-disable-next-line no-unused-vars
-const XF_DEFAULTS_VERSION = 20;
+const XF_DEFAULTS_VERSION = 21;
 
 // eslint-disable-next-line no-unused-vars
 const XF_DEFAULT_RULES = [
@@ -287,7 +291,10 @@ const XF_DEFAULT_RULES = [
       "|三\\s*唑\\s*仑|氟\\s*硝\\s*西\\s*泮|印\\s*度\\s*神\\s*油" +
       "|壮\\s*阳|延\\s*时\\s*(喷|药)|增\\s*大\\s*增\\s*粗|持\\s*久\\s*(液|喷)" +
       "|真\\s*人\\s*(验证|视频)|先\\s*验\\s*后\\s*付|不\\s*满\\s*意\\s*不\\s*要\\s*钱" +
-      "|照\\s*片\\s*(是|为)\\s*本\\s*人|可\\s*视\\s*频\\s*验\\s*证",
+      "|照\\s*片\\s*(是|为)\\s*本\\s*人|可\\s*视\\s*频\\s*验\\s*证" +
+      // 无偿约 / 無償約：整串写在昵称里，正文只放随机英文词，组合层没有
+      // 第二个信号可配。约稿、约拍是同人与摄影圈的正常说法，定向排除
+      "|无\\s*[偿尝]\\s*(约(?!\\s*(稿|拍))|主\\s*人|调\\s*教|母|奴)",
     type: "regex",
     enabled: true,
   },
